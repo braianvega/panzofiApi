@@ -3,7 +3,7 @@ from django.db import models
 
 class Author(models.Model):
     username=models.TextField()
-    userImage=models.URLField()
+    userUrlImage=models.URLField()
     created_at=models.DateTimeField(auto_now_add=True)
     
 class Post(models.Model):
