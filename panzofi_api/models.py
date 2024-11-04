@@ -28,4 +28,3 @@ class ReReply(models.Model):
     author=models.ForeignKey(Author, on_delete=models.CASCADE)
     reply=models.ForeignKey(Reply, on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
-    
