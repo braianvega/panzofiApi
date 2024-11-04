@@ -3,6 +3,7 @@ from django.db import models
 
 class Author(models.Model):
     username=models.TextField(unique=True)
+    name=models.TextField()
     userUrlImage=models.URLField()
     created_at=models.DateTimeField(auto_now_add=True)
     def __str__(self):
