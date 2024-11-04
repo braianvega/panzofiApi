@@ -11,17 +11,21 @@ class PostSerializer(serializers.ModelSerializer):
         model= Post
         fields = "__all__"
         
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model= Comment
-        fields = "__all__"
-
-class ReplySerializer(serializers.ModelSerializer):
-    class Meta:
-        model= Reply
-        fields = "__all__"
 
 class ReReplySerializer(serializers.ModelSerializer):
     class Meta:
         model= ReReply
         fields = "__all__"
+        
+class ReplySerializer(serializers.ModelSerializer):
+    
+    rereplies = ReReplySerializer(many=True, source='rereply_set')
+    class Meta:
+        model= Reply
+        fields = ['id', 'textContent', 'author', 'created_at', 'rereplies']
+        
+class CommentSerializer(serializers.ModelSerializer):
+    replies = ReplySerializer(many=True, source='reply_set')
+    class Meta:
+        model= Comment
+        fields = ['id', 'textContent', 'author', 'created_at', 'replies']
