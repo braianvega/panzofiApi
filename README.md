@@ -15,10 +15,4 @@ python manage.py makemigrations
 python manage.py migrate
 ## Correr el aplicativo
 python manage.py runserver
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+
