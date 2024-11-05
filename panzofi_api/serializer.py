@@ -5,27 +5,38 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model= Author
         fields = "__all__"
-        
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model= Post
-        fields = "__all__"
-        
-
+    
 class ReReplySerializer(serializers.ModelSerializer):
+    author = AuthorSerializer( read_only=True)
+    author_id = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all(), source='author', write_only=True)
     class Meta:
         model= ReReply
-        fields = "__all__"
+        fields = ['id', 'textContent', 'author','author_id', 'created_at']
         
 class ReplySerializer(serializers.ModelSerializer):
+    author = AuthorSerializer( read_only=True)
+    rereplies = ReReplySerializer(many=True, source='rereply_set',  read_only=True)
+    author_id = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all(), source='author', write_only=True)
     
-    rereplies = ReReplySerializer(many=True, source='rereply_set')
     class Meta:
         model= Reply
-        fields = ['id', 'textContent', 'author', 'created_at', 'rereplies']
-        
+        fields = ['id', 'textContent', 'author_id', 'author','created_at','comment', 'rereplies']
+        read_only_fields = ['rereplies']
+
 class CommentSerializer(serializers.ModelSerializer):
-    replies = ReplySerializer(many=True, source='reply_set')
+    replies = ReplySerializer(many=True, source='reply_set', read_only=True)
+    author_id = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all(), source='author', write_only=True)
+    author = AuthorSerializer( read_only=True)
     class Meta:
         model= Comment
-        fields = ['id', 'textContent', 'author', 'created_at', 'replies']
+        fields = ['id', 'textContent', 'author_id','author','created_at', 'post','replies']
+        read_only_fields = ['replies']
+        
+class PostSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer(read_only=True)
+    author_id = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all(), source='author', write_only=True)
+    comments = CommentSerializer(many=True, source='comment_set', read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ['id', 'textContent', 'author', 'author_id','created_at', 'comments']

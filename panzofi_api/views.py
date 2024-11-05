@@ -23,6 +23,12 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
     
+    @action(detail=False, methods=['get'], url_path='all-details')
+    def get_all_details(self, request):
+        posts = self.get_queryset()
+        serializer = self.get_serializer(posts, many=True)  # Serializamos todos los posts
+        return Response(serializer.data)
+    
 class CommentViewSet(viewsets.ModelViewSet):
     queryset=Comment.objects.all()
     permission_classes=[permissions.AllowAny]
