@@ -25,9 +25,3 @@ class Reply(models.Model):
     author=models.ForeignKey(Author, on_delete=models.CASCADE)
     comment=models.ForeignKey(Comment, on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True)
-
-class ReReply(models.Model):
-    textContent=models.TextField()
-    author=models.ForeignKey(Author, on_delete=models.CASCADE)
-    reply=models.ForeignKey(Reply, on_delete=models.CASCADE)
-    created_at=models.DateTimeField(auto_now_add=True)

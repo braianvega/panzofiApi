@@ -1,10 +1,10 @@
-from panzofi_api.models import Author, Reply, ReReply, Comment, Post
+from panzofi_api.models import Author, Reply, Comment, Post
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import renderers
 from rest_framework import filters
-from .serializer import AuthorSerializer, CommentSerializer, ReReplySerializer, ReplySerializer, PostSerializer
+from .serializer import AuthorSerializer, CommentSerializer, ReplySerializer, PostSerializer
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset=Author.objects.all()
@@ -39,8 +39,4 @@ class ReplyViewSet(viewsets.ModelViewSet):
     permission_classes=[permissions.AllowAny]
     serializer_class = ReplySerializer
     
-class ReReplyViewSet(viewsets.ModelViewSet):
-    queryset=ReReply.objects.all()
-    permission_classes=[permissions.AllowAny]
-    serializer_class = ReReplySerializer
     
